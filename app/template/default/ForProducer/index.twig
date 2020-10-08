@@ -1,0 +1,76 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% block main %}
+    {% macro btnArea() %}
+        <div class="row ec-forProducerIntroRole__btnArea">
+            <a class="ec-inlineBtn" href="{{ url('for_producer_form') }}">{{ '出店を申し込む'|trans }}</a>
+        </div>
+    {% endmacro %}
+    {% macro iconAndTextArea(src, isVertical, descriptions) %}
+        <div class="ec-forProducerIntroRole__descItem{{isVertical ? 'Ver': ''}}">
+            <div class="ec-forProducerIntroRole__icon">
+                <img src="{{src}}">
+            </div>
+            <div class="ec-forProducerIntroRole__descMsg">
+                {% for desc in descriptions %}
+                    <p>{{desc|trans}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endmacro %}
+    {% macro checkedAndTextArea(descriptions) %}
+        <div class="ec-forProducerIntroRole__descItem">
+            {# <div class="ec-forProducerIntroRole__checked">
+                <img src="{{src}}">
+            </div> #}
+            <div>
+                {% for desc in descriptions %}
+                    <p>{{desc|trans}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endmacro %}
+
+    <div class="ec-forProducerIntroRole">
+        <div class="container ec-text-ac">
+            <div class="row ec-forProducerIntroRole__descImageArea">
+                <img src="{{ asset('assets/img/waiwaihiroba/for_producer_index_1.png') }}">
+            </div>
+            {{_self.btnArea()}}
+            <div class="row ec-forProducerIntroRole__descArea">
+                <div class="col"><h3>{{'わいわい広場の特徴'|trans}}</h3></div>
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), false,['登録無料','（販売手数料20％）'])}}
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), false,['　販売価格は自由設定','（送料込み価格）'])}}
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), false,['スマホで商品登録OK'])}}
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), false,['登録無料','販路を増やせる'])}}
+                {{_self.checkedAndTextArea(['自分でセット商品を複数設定可能'])}}
+                {{_self.checkedAndTextArea(['購入者の声を直接聞くことができる'])}}
+            </div>
+            {{_self.btnArea()}}
+            <div class="row ec-forProducerIntroRole__descArea">
+                <div class="col"><h3>{{'出店までの流れ'|trans}}</h3></div>
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), true,['まずは、出店申込フォームから', '申込ください。'])}}
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), true,['申込後、本登録に関するメールが届きます。','メールに記載されているURLをクリックし、', 'ガイダンスにそって情報を入力。'])}}
+                {{_self.iconAndTextArea(asset('assets/img/waiwaihiroba/for_producer_index_1.png'), true,['いつでも、どこでも、', 'スマホやPCから出品できます。'])}}
+            </div>
+            {{_self.btnArea()}}
+            <div class="row ec-forProducerIntroRole__descArea">
+                <div class="col"><h3>{{'お取り扱いできる商品について'|trans}}</h3></div>
+                {{_self.checkedAndTextArea(['お酒の取り扱いはできません。'])}}
+                {{_self.checkedAndTextArea(['商品は、「生産地が長野の商品」のみとなります。'])}}
+            </div>
+        </div>
+    </div>
+{% endblock %}

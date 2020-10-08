@@ -1,0 +1,83 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<div class="ec-navlistRole">
+    <ul class="ec-navlistRole__navlist">
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}active{% endif %}">
+            <a href="{{ url('mypage') }}">{{ 'front.mypage.nav__history'|trans }}</a>
+        </li>
+        {% if BaseInfo.option_favorite_product %}
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'favorite' %}active{% endif %}">
+                <a href="{{ url('mypage_favorite') }}">{{ 'front.mypage.nav__favorite'|trans }}</a>
+            </li>
+        {% endif %}
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
+            <a href="{{ url('mypage_change') }}">{{ 'front.mypage.nav__customer'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'point' %}active{% endif %}">
+            <a href="{{ url('mypage_point') }}">{{ 'front.mypage.nav__point'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
+            <a href="{{ url('mypage_delivery') }}">{{ 'front.mypage.nav__customer_address'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
+            <a href="{{ url('mypage_withdraw') }}">{{ 'front.mypage.nav__withdrow'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'logout' %}active{% endif %}">
+            <a href="{{ url('logout') }}">{{ 'front.block.login.logout'|trans }}</a>
+        </li>
+    </ul>
+
+    <div class="ec-navlistRole__navlistSp cp_sl01">
+        <select id="navispmenu" class="ec-navlistRole__spselect" onchange="selectNaviMenu()" required>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'index' %}active{% endif %}" 
+                value="{{ url('mypage') }}"
+                {% if mypageno|default('') == 'index' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__history'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'favorite' %}active{% endif %}" 
+                value="{{ url('mypage_favorite') }}"
+                {% if mypageno|default('') == 'favorite' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__favorite'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'change' %}active{% endif %}" 
+                value="{{ url('mypage_change') }}"
+                {% if mypageno|default('') == 'change' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__customer'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'point' %}active{% endif %}" 
+                value="{{ url('mypage_point') }}"
+                {% if mypageno|default('') == 'point' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__point'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'delivery' %}active{% endif %}" 
+                value="{{ url('mypage_delivery') }}"
+                {% if mypageno|default('') == 'delivery' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__customer_address'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'withdraw' %}active{% endif %}" 
+                value="{{ url('mypage_withdraw') }}"
+                {% if mypageno|default('') == 'withdraw' %}selected disabled{% endif %}>
+                {{ 'front.mypage.nav__withdrow'|trans }}
+            </option>
+            <option class="ec-navlistRole__spitem {% if mypageno|default('') == 'logout' %}active{% endif %}" 
+                value="{{ url('logout') }}"
+                {% if mypageno|default('') == 'logout' %}selected disabled{% endif %}>
+                {{ 'front.block.login.logout'|trans }}
+            </option>
+        </select>
+    </div>
+</div>
+<script>
+    function selectNaviMenu() {
+        let link = document.getElementById("navispmenu").value;
+        location.href = link
+    }
+</script>

@@ -1,0 +1,164 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'Mypage/mypage_frame.twig' %}
+
+{% set mypageno = 'review' %}
+
+{% set body_class = 'mypage' %}
+
+{% block title %}
+	{{ 'front.mypage.review.review_new'|trans }}
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        let fileInput = document.getElementById('review_image');
+        let uploadArea = document.getElementById('upload-area');
+        let previewArea = document.getElementById('preview-area');
+        const dragAreaBgColor = uploadArea.style.background;
+
+        //プレビューする
+        fileInput.addEventListener('change', function(e) {
+			Array.from(this.files).forEach(function(file,index){
+				previewImage(file,index);
+			});
+        });
+        //アップロードエリアのクリックしたときにファイル選択を表示
+        uploadArea.addEventListener('click', function(e) {
+            fileInput.click();
+        });
+        //ドラックしたファイルをアップロードエリアに乗せた時のイベント
+        uploadArea.addEventListener('dragover', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = '#e1e7f0';
+        }, false);
+        //
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = dragAreaBgColor;
+        }, false);
+        uploadArea.addEventListener('drop', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = dragAreaBgColor; //背景色を戻す
+            var files = e.dataTransfer.files; //ドロップしたファイルを取得
+			fileInput.files = files; //inputのvalueをドラッグしたファイルに置き換える。
+			Array.from(files).forEach(function(file,index) {
+				previewImage(file,index);
+			});
+        }, false);
+        function previewImage(file, index)
+        {
+			const previewTag = `
+			<div id="previewArea${index}" class="ec-image-area">
+				<img id="preview${index}" class="ec-image-preview"/>
+				<a id="previewClose${index}" class="ec-closeBtn--circle">
+					<div class="ec-icon">
+						<img src="{{ asset('assets/icon/cross-white.svg') }}" alt="close">
+					</div>
+				</a>
+			</div>
+			`
+			//プレビューエリア追加
+			previewArea.insertAdjacentHTML('afterbegin',previewTag);
+			//プレビュー表示
+            const fileReader = new FileReader();
+            fileReader.onload = (function() {
+				let area = document.getElementById(`previewArea${index}`);
+				let img = document.getElementById(`preview${index}`);
+				let close = document.getElementById(`previewClose${index}`);
+				close.addEventListener('click', function(e) {
+					fileInput.files[index] = "";
+					area.remove();
+					Array.from(fileInput).splice(index, 1);
+				});
+                img.src = fileReader.result;
+            });
+            fileReader.readAsDataURL(file);
+        }
+    </script>
+{% endblock javascript %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block content %}
+	<div class="ec-mypageRole">
+		<div class="ec-editRole">
+			<div class="ec-off1Grid">
+				<div class="ec-off1Grid__cell">
+					<form method="post" action="{{ url('mypage_review_new') }}" novalidate class="h-adr" enctype="multipart/form-data">
+						<span class="p-country-name" style="display:none;">Japan</span>
+						{{ form_widget(form._token) }}
+						<div class="ec-borderedDefs">
+							<dl>
+								<dt>
+									{{ form_label(form.product_name, 'front.mypage.review.product', { 'label_attr': { 'class': 'ec-label' }}) }}
+								</dt>
+								<dd>
+									<div class="ec-input{{ has_errors(form.product_name) ? ' error'}}">
+										{{ form_widget(form.product_name, { 'attr': { 'placeholder': 'front.mypage.review.product' }}) }}
+										{{ form_errors(form.product_name) }}
+									</div>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									{{ form_label(form.text, 'front.mypage.review.review_body', { 'label_attr': { 'class': 'ec-label' }}) }}
+								</dt>
+								<dd>
+									<div class="ec-input{{ has_errors(form.text) ? ' error' }}">
+										{{ form_widget(form.text, { 'attr': { 'placeholder': 'front.mypage.review.review_body_placeholder' }}) }}
+										{{ form_errors(form.text) }}
+									</div>
+									<p>{{"front.mypage.review.caution"|trans}}</p>
+								</dd>
+							</dl>
+							<dl>
+								<dt>
+									{{ form_label(form.image, 'common.attached_image', { 'label_attr': {'class': 'ec-label' }}) }}
+								</dt>
+								<dd>
+									<div class="ec-image-multiple ec-icon{{ has_errors(form.image) ? ' error'}}">
+										{{ form_widget(form.image, { attr : { accept : 'image/png,image/jpeg', style : 'display:none;'} }) }}
+										{{ form_errors(form.image) }}
+										<div class="ec-image-multiple__upload">
+											<div id="upload-area" class="ec-image-upload-icon">
+												後で
+											</div>
+											<div class="ec-image-upload-description">
+												<p>{{ 'common.attached_image_messsage' | trans|nl2br}}</p>
+											</div>													
+										</div>
+										<div id="preview-area" class="ec-image-multiple__preview">
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+						<div class="ec-RegisterRole__actions">
+							<div class="ec-off4Grid">
+								<div class="ec-off4Grid__cell">
+									<div class="ec-agree">
+										<p>{{ 'common.agreement_message'|trans({ '%url_agreement%': url('help_agreement'), '%url_privacy%': url('help_privacy')})|raw|nl2br }}</p>
+									</div>
+									<button type="submit" class="ec-blockBtn--cancel">{{ 'front.mypage.farmer.review_post'|trans }}</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

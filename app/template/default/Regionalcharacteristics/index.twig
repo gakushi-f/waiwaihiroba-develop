@@ -1,0 +1,77 @@
+{% extends 'default_frame.twig' %}
+
+{# TODO：後で変えよう #}
+{% set sample_image = "https://www.naganoken-gakushuryoko.net/dimage/areamap.jpg" %}
+{% set areas = [
+    {
+        id: 'north_shinano',
+        class: 'north_shinano',
+        title: 'intro.area_name.north_shinano',
+        coords: "226,10,232,17,241,31,250,48,258,62,283,64,283,83,213,83,207,99,186,101,172,109,177,120,171,125,156,113,147,112,137,113,130,96,127,75,134,58,141,43,152,47,165,39,177,38,191,35,200,16,209,9,226,9",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'east_shinano',
+        class: 'east_shinano',
+        title: 'intro.area_name.east_shinano',
+        coords: "212,125,237,126,247,133,247,146,273,147,272,186,241,186,249,205,256,220,254,235,223,225,224,206,202,205,199,195,186,186,174,185,160,174,162,166,153,148,155,132,161,122,171,131,182,119,178,110,193,104,205,106,202,118,213,125",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'suwa',
+        class: 'suwa',
+        title: 'intro.area_name.suwa',
+        coords: "159,176,149,177,142,197,174,244,189,246,230,247,240,234,222,229,219,211,197,208,190,193,177,192,165,188",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'north_alps',
+        class: 'north_alps',
+        title: 'intro.area_name.north_alps',
+        coords: "142,38,142,33,127,25,115,43,100,59,100,83,95,92,3,94,4,114,22,115,25,131,78,133,83,146,73,178,74,201,91,202,106,190,112,193,117,206,138,193,146,176,154,172,157,165,150,149,152,130,158,120,148,117,136,118,126,95,124,74,140,40",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'kisoji',
+        class: 'kisoji',
+        title: 'intro.area_name.kisoji',
+        coords: "113,214,108,273,84,302,79,303,70,290,20,289,21,272,3,272,3,250,38,252,36,239,42,230,62,224,72,205,93,205,103,193,108,194,114,214",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'inaji',
+        class: 'inaji',
+        title: 'intro.area_name.inaji',
+        coords: "137,197,173,251,172,284,235,288,229,308,168,308,163,335,126,360,107,366,96,363,83,368,70,361,75,348,82,311,111,276,117,210",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+]%}
+
+{% block main %}
+	<div class="ec-shinshuRole">
+		<div class="ec-off2Grid ec-text-ac">
+			<div class="ec-off2Grid__cell">
+				<div class="ec-shinshuRole__map">
+					<img src="{{sample_image}}" usemap="#shinshu-map"/>
+					<map name="shinshu-map" id="Map">
+						{% for area in areas %}
+							<area shape="poly" coords="{{area.coords}}" alt="{{area.title|trans}}{{'intro.area'|trans}}" href="#{{area.id}}">
+						{% endfor %}
+					</map>
+				</div>
+				{% for area in areas %}
+					<div id="{{area.id}}" class="ec-shinshuRole__detail">
+						<h2>{{area.title|trans}}{{'intro.area'|trans}}</h2>
+						<div class="ec-shinshu-intro-detail">
+							<img src="{{area.image}}">
+							<div>
+								<a class="ec-inlineBtn" href="{{ url('product_list') }}?name={{area.title|trans}}">{{ 'intro.button.product'|trans }}</a>
+								<a class="ec-inlineBtn" href="{{ url('product_list') }}?name={{area.title|trans}}">{{ 'intro.button.farmer'|trans }}</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

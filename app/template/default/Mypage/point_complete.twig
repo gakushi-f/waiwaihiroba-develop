@@ -1,0 +1,39 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+{% extends 'Mypage/mypage_frame.twig' %}
+
+{% set mypageno = 'point' %}
+
+{% set body_class = 'mypage' %}
+
+{% block title %}
+	{{ 'front.mypage.nav__customer_complete'|trans }}
+{% endblock %}
+
+{% block content %}
+<div class="ec-registerCompleteRole">
+    <div class="ec-off2Grid ec-text-ac">
+        <div class="ec-off2Grid__cell">
+            <div class="ec-reportHeading">
+                <h2>{{ 'front.mypage.point.used_coupon'|trans }}</h2>
+            </div>
+            <p class="ec-reportDescription">{{ 'front.mypage.point.coupon_no_colon'|trans({ '%coupon%': coupon}) }}</p>
+			<p class="ec-reportDescription">{{ 'front.mypage.point.coupon_add'|trans({ '%point%': point|number_format}) }}</p>
+            <div class="ec-off4Grid">
+                <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel"
+                                                    href="{{ url('mypage_point') }}">{{ 'front.mypage.point.go_point'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,334 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'front_page' %}
+
+{# TODO：後で変えよう #}
+{% set sample_image = "https://www.naganoken-gakushuryoko.net/dimage/areamap.jpg" %}
+{% set areas = [
+    {
+        id: 'north_shinano',
+        class: 'north_shinano',
+        title: 'intro.area_name.north_shinano',
+        character: 'intro.character.north_shinano',
+        main_products: 'intro.main_products.north_shinano',
+        coords: "226,10,232,17,241,31,250,48,258,62,283,64,283,83,213,83,207,99,186,101,172,109,177,120,171,125,156,113,147,112,137,113,130,96,127,75,134,58,141,43,152,47,165,39,177,38,191,35,200,16,209,9,226,9",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'east_shinano',
+        class: 'east_shinano',
+        title: 'intro.area_name.east_shinano',
+        character: 'intro.character.east_shinano',
+        main_products: 'intro.main_products.east_shinano',
+        coords: "212,125,237,126,247,133,247,146,273,147,272,186,241,186,249,205,256,220,254,235,223,225,224,206,202,205,199,195,186,186,174,185,160,174,162,166,153,148,155,132,161,122,171,131,182,119,178,110,193,104,205,106,202,118,213,125",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'suwa',
+        class: 'suwa',
+        title: 'intro.area_name.suwa',
+        character: 'intro.character.suwa',
+        main_products: 'intro.main_products.suwa',
+        coords: "159,176,149,177,142,197,174,244,189,246,230,247,240,234,222,229,219,211,197,208,190,193,177,192,165,188",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'north_alps',
+        class: 'north_alps',
+        title: 'intro.area_name.north_alps',
+        character: 'intro.character.north_alps',
+        main_products: 'intro.main_products.north_alps',
+        coords: "142,38,142,33,127,25,115,43,100,59,100,83,95,92,3,94,4,114,22,115,25,131,78,133,83,146,73,178,74,201,91,202,106,190,112,193,117,206,138,193,146,176,154,172,157,165,150,149,152,130,158,120,148,117,136,118,126,95,124,74,140,40",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'kisoji',
+        class: 'kisoji',
+        title: 'intro.area_name.kisoji',
+        character: 'intro.character.kisoji',
+        main_products: 'intro.main_products.kisoji',
+        coords: "113,214,108,273,84,302,79,303,70,290,20,289,21,272,3,272,3,250,38,252,36,239,42,230,62,224,72,205,93,205,103,193,108,194,114,214",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+    {
+        id: 'inaji',
+        class: 'inaji',
+        title: 'intro.area_name.inaji',
+        character: 'intro.character.inaji',
+        main_products: 'intro.main_products.inaji',
+        coords: "137,197,173,251,172,284,235,288,229,308,168,308,163,335,126,360,107,366,96,363,83,368,70,361,75,348,82,311,111,276,117,210",
+        image: 'http://www.spacefan.net/freegallery/phdata/sc/sc-003-1.jpg',
+    },
+]%}
+
+{% block javascript %}
+    <script>
+        let nowContentId;
+        $(function() {
+            $('.main_visual').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                speed: 300,
+                slidesToShow: 3,
+            });
+        });
+        function showContent(id){
+            if (nowContentId){
+                let nowShowContent = document.getElementById(nowContentId);
+                nowShowContent.style.display = 'none';
+            }
+            nowContentId = id;
+            let content = document.getElementById(id);
+            content.style.display = 'block';
+
+            //モーダル 表示
+             $('#mapModual').modal();
+        }
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="ec-shinshuMapRole">
+        <div class="ec-shinshuMapRole__map">
+            <img src="{{sample_image}}" usemap="#shinshu-map"/>
+            <map name="shinshu-map" id="Map">
+                {% for area in areas %}
+                    <area shape="poly" coords="{{area.coords}}" alt="{{area.title|trans}}{{'intro.area'|trans}}" onclick="showContent('{{area.id}}')">
+                {% endfor %}
+            </map>
+        </div>
+        {# <div class="ec-shinshuMapRole__detail">
+            {% for area in areas %}
+                <div id="{{area.id}}" class="ec-shinshuMapBalloon">
+                    <div class="ec-shinshuMapBalloon__title">
+                        <h3>{{area.title|trans}}{{'intro.area'|trans}}</h3>
+                    </div>
+                    <div class="ec-shinshuMapBalloon__character">
+                        <h3>{{'intro.character'|trans}}</h3>
+                        <p>{{area.character|trans|nl2br }}</p>
+                        <a class="ec-inlineBtn" href="{{ url('shinshu')}}#{{area.id}}">{{ 'common.show_detail'|trans }}</a>
+                    </div>
+                    <div class="ec-shinshuMapBalloon__title">
+                        <h3>{{'intro.main_products'|trans}}</h3>
+                        <p>{{area.main_products|trans|nl2br }}</p>
+                        <a class="ec-inlineBtn" href="{{ url('product_list') }}?name={{area.title|trans}}">{{ 'common.this_area_search'|trans }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div> #}
+    </div>
+    <div class="ec-sliderRole">
+        <h3 class="ec-text-ac">{{'front.block.topic.topic__ja'|trans}}</h3>
+        <div class="main_visual">
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc01.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc02.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc03.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc01.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc02.jpg') }}"></div>
+            <div class="item slick-slide"><img src="{{ asset('assets/img/top/img_hero_pc03.jpg') }}"></div>
+        </div>
+    </div>
+    <div class="ec-topMain">
+        <div class="ec-topMain__content">
+            <div class="ec-topMainContent">
+                <div class="ec-topMainContent__search">
+                    <div class="ec-topMainSearchSp">
+                        <div class="ec-topMainSearchSp__Serach">
+                            <div class="ec-topSpCollapse">
+                                <button class="ec-topSpCollapse__button ec-input" type="button"
+                                    data-toggle="collapse"
+                                    data-target=".collapse-target"
+                                    aria-expanded="false">
+                                絞り込み
+                                </button>
+                                <div class="ec-topSpCollapse__arrorw">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ec-topMainSearchSp__SerachMain">
+                                <div class="collapse collapse-target">
+                                    <div class="">
+                                        <div class="">カテゴリ：</div>
+                                        <div class="">野菜 北信越</div>
+                                    </div>
+                                    <div class="">
+                                        キーワード：
+                                        {% if searchForm.vars.value != null %}
+                                            {{searchForm.vars.value.name}}
+                                        {% endif %}
+                                    </div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModalSp">
+                                        検索条件を変更する
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="ec-topMainContent__products">
+                    {# タブ表示 #}
+                    <ul class="nav nav-tabs text-center" role="tablist">
+                        <li class="nav-item active">
+                            <a id="menu__product" href="#detail_box__product_data" class="nav-link" data-toggle="tab">
+                                <span>{{ '商品'|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="menu__farmer" href="#detail_box__farmer_tpl_data" class="nav-link" data-toggle="tab" aria-expanded="true">
+                                <span>{{ '生産者'|trans }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="detail_box__product_data" class="form-group tab-pane active">
+                            {% if pagination.totalItemCount > 0 %}
+                                <div class="ec-shelfRole">
+                                    <ul class="ec-shelfGrid">
+                                        {% for Product in pagination %}
+                                            <li class="ec-shelfGrid__item">
+                                                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                                    <p class="ec-shelfGrid__item-image">
+                                                        <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}">
+                                                    </p>
+                                                    <p>{{ Product.name }}</p>
+                                                    {% if Product.description_list %}
+                                                        <p>{{ Product.description_list|raw|nl2br }}</p>
+                                                    {% endif %}
+                                                    <p class="price02-default">
+                                                        {% if Product.hasProductClass %}
+                                                            {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                                {{ Product.getPrice02IncTaxMin|price }}
+                                                            {% else %}
+                                                                {{ Product.getPrice02IncTaxMin|price }}
+                                                                ～
+                                                                {{ Product.getPrice02IncTaxMax|price }}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {{ Product.getPrice02IncTaxMin|price }}
+                                                        {% endif %}
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="ec-pagerRole">
+                                    {% include "multiPager.twig" with {'pages': pagination.paginationData, 'pageType': 'product'} %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div id="detail_box__farmer_tpl_data" class="form-group tab-pane">
+                            {% if producerPagination.totalItemCount > 0 %}
+                                <div class="ec-shelfRole">
+                                    <ul class="ec-shelfGrid">
+                                        {% for Product in producerPagination %}
+                                            <li class="ec-shelfGrid__item">
+                                                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                                                    <p class="ec-shelfGrid__item-image">
+                                                        <img src="{{ asset(Product.main_list_image|no_image_product, 'save_image') }}">
+                                                    </p>
+                                                    <p>{{ Product.name }}</p>
+                                                    {% if Product.description_list %}
+                                                        <p>{{ Product.description_list|raw|nl2br }}</p>
+                                                    {% endif %}
+                                                    <p class="price02-default">
+                                                        {% if Product.hasProductClass %}
+                                                            {% if Product.getPrice02Min == Product.getPrice02Max %}
+                                                                {{ Product.getPrice02IncTaxMin|price }}
+                                                            {% else %}
+                                                                {{ Product.getPrice02IncTaxMin|price }}
+                                                                ～
+                                                                {{ Product.getPrice02IncTaxMax|price }}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {{ Product.getPrice02IncTaxMin|price }}
+                                                        {% endif %}
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="ec-pagerRole">
+                                    {% include "multiPager.twig" with {'pages': producerPagination.paginationData, 'pageType': 'producer'} %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mapModual" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="ec-shinshuMapRole__detail">
+                        {% for area in areas %}
+                            <div id="{{area.id}}" class="ec-shinshuMapBalloon">
+                                <div class="ec-shinshuMapBalloon__title">
+                                    <h3>{{area.title|trans}}{{'intro.area'|trans}}</h3>
+                                </div>
+                                <div class="ec-shinshuMapBalloon__character">
+                                    <h3>{{'intro.character'|trans}}</h3>
+                                    <p>{{area.character|trans|nl2br }}</p>
+                                    <a class="ec-inlineBtn" href="{{ url('Regionalcharacteristics')}}#{{area.id}}">{{ 'common.show_detail'|trans }}</a>
+                                </div>
+                                <div class="ec-shinshuMapBalloon__title">
+                                    <h3>{{'intro.main_products'|trans}}</h3>
+                                    <p>{{area.main_products|trans|nl2br }}</p>
+                                    <a class="ec-inlineBtn" href="{{ url('product_list') }}?name={{area.title|trans}}">{{ 'common.this_area_search'|trans }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="searchModalSp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <form method="get" class="searchform" action="{{ path('product_list') }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serachModalTitle">絞り込み条件</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="ec-topModual-sp-body-item">
+                        <div class="ec-topModual-sp__title">キーワード：</div>
+                        <div class="ec-topModual-sp__keywoard">
+                            {{ form_widget(searchForm.name, {'id': null, 'attr': {'class': 'search-name', 'placeholder' : 'common.search_keyword' }}
+                            ) }}
+                        </div>
+                    </div>
+                    <div class="ec-topModual-sp-body-item">
+                        <div class="ec-topModual-sp__title">カテゴリ：</div>
+                        <div class="ec-topModual-sp__category">
+                            <div class="ec-select ec-select_search">
+                                {{ form_widget(searchForm.category_id, {'id': null, 'attr': {'class': 'category_id'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="#searchModalSp">検索</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+{% endblock %}
+

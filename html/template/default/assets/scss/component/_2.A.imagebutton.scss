@@ -1,0 +1,13 @@
+@import "../mixins/variables";
+@import "../mixins/media";
+@import "../mixins/btn";
+
+/*
+画像ボタン
+*/
+.ec-image-inlineBtn{
+  width: auto;
+  height:40px;
+  padding: 0;
+  border: 0;
+}

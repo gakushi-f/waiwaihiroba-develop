@@ -1,0 +1,75 @@
+@import "../mixins/media";
+
+/*
+商品詳細、生産者詳細の検索用
+*/
+.ec-productDetailSearchRole {
+  & &__condition{
+    display: flex;
+  }
+}
+.ec-productDetailSearchText {
+  flex-grow: 1;
+}
+
+/*
+商品詳細、生産者詳細のレビュー用
+*/
+.ec-productDetailReivewItem{
+  & &__postDate{
+    text-align: right;
+  }
+  & &__user{
+      img{
+      max-width: 20%;
+    }
+  }
+  & &__producer{
+    display: flex;
+  }
+}
+.ec-productDetailReivewImages{
+  img {
+    width: 20%;
+  }
+}
+.ec-productDetailReivewThumb{
+  img{
+    border-radius: 50%;
+    width: auto;
+    height: 36px;
+    max-width: none;
+  }
+}
+.ec-prodcutDetailReviewStar{
+  img{
+    width: auto;
+    height: 36px;
+  }
+}
+.ec-productDetailReivewUserMessage{
+  & &__header{
+    display: flex;
+    span {
+      flex-grow: 1;
+    }
+  }
+  & &__btn{
+    margin-left: 1em;
+  }
+}
+
+// レビューサマリー
+.ec-prodcutDetailReviewSummary{
+  & &__meterItem{
+    display: flex;
+    max-width: 50em;
+  }
+  meter {
+    flex-grow: 1;
+  }
+  span {
+    min-width: 3em;
+    text-align: right;
+  }
+}

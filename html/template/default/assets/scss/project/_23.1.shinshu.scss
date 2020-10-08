@@ -1,0 +1,14 @@
+@import "../mixins/media";
+/*
+信州紹介
+*/
+.ec-shinshu-intro-detail{
+  display: block;
+  .ec-inlineBtn{
+    background-color: #38af38;
+    color: white;
+  }
+}
+.ec-shinshuRole{
+  margin-top: 1em;
+}

@@ -1,0 +1,30 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1 class="ec-mypageRole__title">{{ 'front.mypage.title'|trans }}/{% block title %}{% endblock %}</h1>
+            </div>
+            <div class="ec-mypageRole__navi">
+                {% include 'Mypage/navi.twig' %}
+            </div>
+            {% include 'Mypage/welcom.twig' %}
+        </div>
+        <div class="ec-mypageMainRole">
+            <div class="ec-mypageMainRole__content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

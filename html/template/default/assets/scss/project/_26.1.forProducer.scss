@@ -1,0 +1,110 @@
+@import "../mixins/media";
+/*
+出店申込
+
+出店申込 に関する Project コンポーネントを定義します。
+
+*/
+.ec-forProducerRole{
+  @include container;
+  & &__actions {
+    padding-top:20px;
+    text-align: center;
+    @include media_desktop {
+      text-align: left;
+    }
+    p {
+      margin-bottom: 16px;
+    }
+  }
+  .ec-blockBtn--action {
+    margin-bottom: 16px;
+  }
+
+  //出店募集
+  & &__btnArea {
+    margin-bottom: 1em;
+  }
+  & &__descArea {
+    background-color: #E2EFDA;
+    margin-bottom: 1em;
+    img{
+      max-width: 100%;
+      height: auto;
+    }
+    h3{
+      text-decoration:underline;
+    }
+  }
+  & &__descItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & &__descVer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  & &__descMsg {
+    min-width:12em
+  }
+  & &__icon {
+    img{
+      width: 5em;
+      height: 5em;
+    }
+  }
+}
+.ec-forProducerCompleteRole {
+  @include container;
+  & &__support{
+    margin-bottom: 16px;
+  }
+}
+
+.ec-forProducerIntroRole{
+  //出店募集
+  & &__descImageArea{
+    margin-bottom: 1em;
+    img{
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  & &__btnArea {
+    margin-bottom: 1em;
+  }
+  & &__descArea {
+    background-color: #E2EFDA;
+    margin-bottom: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    h3{
+      text-decoration:underline;
+    }
+  }
+  & &__descItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+  }
+  & &__descItemVer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1em;
+  }
+  & &__descMsg {
+    min-width:12em
+  }
+  & &__icon {
+    img{
+      width: 5em;
+      height: 5em;
+    }
+  }
+}

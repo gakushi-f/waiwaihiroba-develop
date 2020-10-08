@@ -1,0 +1,285 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+    {# TODO：いつか共通化したい #}
+    <script>
+        let fileInput = document.getElementById('contact_image');
+        let uploadArea = document.getElementById('upload-area');
+        let previewArea = document.getElementById('preview-area');
+        const dragAreaBgColor = uploadArea.style.background;
+
+        //プレビューする
+        fileInput.addEventListener('change', function(e) {
+			Array.from(this.files).forEach(function(file,index){
+				previewImage(file,index);
+			});
+        });
+        //アップロードエリアのクリックしたときにファイル選択を表示
+        uploadArea.addEventListener('click', function(e) {
+            fileInput.click();
+        });
+        //ドラックしたファイルをアップロードエリアに乗せた時のイベント
+        uploadArea.addEventListener('dragover', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = '#e1e7f0';
+        }, false);
+        //
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = dragAreaBgColor;
+        }, false);
+        uploadArea.addEventListener('drop', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            this.style.background = dragAreaBgColor; //背景色を戻す
+            var files = e.dataTransfer.files; //ドロップしたファイルを取得
+			fileInput.files = files; //inputのvalueをドラッグしたファイルに置き換える。
+			Array.from(files).forEach(function(file,index) {
+				previewImage(file,index);
+			});
+        }, false);
+        function previewImage(file, index)
+        {
+			const previewTag = `
+			<div id="previewArea${index}" class="ec-image-area">
+				<img id="preview${index}" class="ec-image-preview"/>
+				<a id="previewClose${index}" class="ec-closeBtn--circle">
+					<div class="ec-icon">
+						<img src="{{ asset('assets/icon/cross-white.svg') }}" alt="close">
+					</div>
+				</a>
+			</div>
+			`
+			//プレビューエリア追加
+			previewArea.insertAdjacentHTML('afterbegin',previewTag);
+			//プレビュー表示
+            const fileReader = new FileReader();
+            fileReader.onload = (function() {
+				let area = document.getElementById(`previewArea${index}`);
+				let img = document.getElementById(`preview${index}`);
+				let close = document.getElementById(`previewClose${index}`);
+				close.addEventListener('click', function(e) {
+					fileInput.files[index] = "";
+					area.remove();
+					Array.from(fileInput).splice(index, 1);
+				});
+                img.src = fileReader.result;
+            });
+            fileReader.readAsDataURL(file);
+        }
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="ec-contactRole">
+        <div class="ec-pageHeader">
+            <h1>{{ 'front.contact.title'|trans }}</h1>
+        </div>
+        <div class="ec-off3Grid">
+            <div class="ec-off3Grid__cell text-center">
+                <p>{{'front.contact.frequently_qa' |trans({ '%url%': url('help_agreement') })|raw }}</p>
+                <p>{{'front.contact.frequently_message' |trans}}</p>
+            </div>
+        </div>
+        <div class="ec-contact-caution">
+            <div class="ec-off3Grid">
+                <div class="ec-off3Grid__cell">
+                    <p class="ec-contact-caution__title">{{'front.contact.caution_title'|trans}}</p>
+                </div>              
+            </div>
+            <div class="ec-off2Grid">
+                <div class="ec-off2Grid__cell">
+                    <p>{{ 'front.contact.inquiry_notice'|trans|nl2br }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="ec-off1Grid">
+            <div class="ec-off1Grid__cell">
+                <form method="post" action="{{ url('contact') }}" class="h-adr" enctype="multipart/form-data" novalidate>
+                    <span class="p-country-name" style="display:none;">Japan</span>
+                    {{ form_widget(form._token) }}
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error' }}">
+                                    {{ form_widget(form.name.name01, {'attr': { 'placeholder': 'common.last_name' }}) }}
+                                    {{ form_widget(form.name.name02, {'attr': { 'placeholder': 'common.first_name' }}) }}
+                                    {{ form_errors(form.name.name01) }}
+                                    {{ form_errors(form.name.name02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.kana, 'common.kana', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error' }}">
+                                    {{ form_widget(form.kana.kana01, {'attr': { 'placeholder': 'common.last_name_kana' }}) }}
+                                    {{ form_widget(form.kana.kana02, {'attr': { 'placeholder': 'common.first_name_kana' }}) }}
+                                    {{ form_errors(form.kana.kana01) }}
+                                    {{ form_errors(form.kana.kana02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.company_name, 'common.company_name', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.company_name) ? ' error' }}">
+                                    {{ form_widget(form.company_name) }}
+                                    {{ form_errors(form.company_name) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-zipInput{{ has_errors(form.postal_code) ? ' error' }}">
+                                    <span>{{ 'common.postal_symbol'|trans }}</span>
+                                    {{ form_widget(form.postal_code) }}
+                                    {{ form_errors(form.postal_code) }}
+                                </div>
+                                <div class="ec-zipInputHelp">
+                                    <div class="ec-zipInputHelp__icon">
+                                        <div class="ec-icon"><img
+                                                    src="{{ asset('assets/icon/question-white.svg') }}" alt="">
+                                        </div>
+                                    </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ 'common.search_postal_code'|trans }}</span></a>
+                                </div>
+                                {{ form_errors(form.postal_code) }}
+                                <div class="ec-select{{ has_errors(form.address.pref) ? ' error' }}">
+                                    {{ form_widget(form.address.pref) }}
+                                    {{ form_errors(form.address.pref) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(form.address.addr01) ? ' error' }}">
+                                    {{ form_widget(form.address.addr01, { 'attr': { 'placeholder': 'common.address_sample_01' }}) }}
+                                    {{ form_errors(form.address.addr01) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(form.address.addr02) ? ' error' }}">
+                                    {{ form_widget(form.address.addr02,  { 'attr': { 'placeholder': 'common.address_sample_02' }}) }}
+                                    {{ form_errors(form.address.addr02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
+                                    {{ form_widget(form.phone_number) }}
+                                    {{ form_errors(form.phone_number) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.email) ? ' error' }}">
+                                    {{ form_widget(form.email) }}
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.subject, 'front.contact.subject', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.subject) ? ' error' }}">
+                                    {{ form_widget(form.subject) }}
+                                    {{ form_errors(form.subject) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'front.contact.inquiry_contents', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.contents) ? ' error' }}">
+                                    {{ form_widget(form.contents) }}
+                                    {{ form_errors(form.contents) }}
+                                </div>
+                                <p>{{ 'front.contact.order_notice'|trans }}</p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.image, 'common.attached_image', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-image-multiple ec-icon{{ has_errors(form.image) ? ' error'}}">
+                                    {{ form_widget(form.image, { attr : { accept : 'image/png,image/jpeg', style : 'display:none;'} }) }}
+                                    {{ form_errors(form.image) }}
+                                    <div class="ec-image-multiple__upload">
+                                        <div id="upload-area" class="ec-image-upload-icon">
+                                            後で
+                                        </div>
+                                        <div class="ec-image-upload-description">
+                                            <p>{{ 'common.attached_image_messsage' | trans|nl2br}}</p>
+                                        </div>													
+                                    </div>
+                                    <div id="preview-area" class="ec-image-multiple__preview">
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
+                        {# エンティティ拡張の自動出力 #}
+                        {% for f in form if f.vars.eccube_form_options.auto_render %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ form_widget(f) }}
+                                            {{ form_errors(f) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-RegisterRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ 'common.go_to_confirm'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

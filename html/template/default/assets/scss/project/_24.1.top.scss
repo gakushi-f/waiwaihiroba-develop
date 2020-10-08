@@ -1,0 +1,195 @@
+@import "../mixins/media";
+
+/*
+特集
+*/
+.slick-slider {
+  margin-bottom: 30px;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: -45px;
+  display: block;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+
+  cursor: pointer;
+}
+
+.slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+.slick-dots li button:hover,
+.slick-dots li button:focus {
+  outline: none;
+}
+
+.slick-dots li button:hover:before,
+.slick-dots li button:focus:before {
+  opacity: 1;
+}
+
+.slick-dots li button:before {
+  content: " ";
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  text-align: center;
+  opacity: .25;
+  background-color: black;
+  border-radius: 50%;
+
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: .75;
+  background-color: black;
+}
+
+.slick-dots li button.thumbnail img {
+  width: 0;
+  height: 0;
+}
+
+/*
+信州地図
+*/
+.ec-shinshuMapRole{
+  display: flex;
+  padding: 1em;
+  & &__map{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    img {
+      width: 290px;
+      height: 380px;
+    }
+  }
+}
+.ec-shinshuMapBalloon{
+  background-color: orange;
+  padding: 1em;
+  display: none;
+}
+
+/*
+メイン
+*/
+.ec-topMain{
+  display: flex;
+  & &__navi{
+    width: 25%;
+    margin-right: 2em;
+    ul {
+      padding-left: 2em;
+    }
+    @include media_sp{
+      display: none;
+    }
+  }
+  & &__content{
+      width: 100%;
+  }
+}
+.ec-topMainContent{
+  padding-right: 1em;
+  padding-left: 1em;
+  & &__products {
+    margin-top: 2em;
+  }
+  .tab-content{
+    padding: 1em;
+  }
+  ul {
+    display: flex;
+  }
+  li {
+    width: 100%;
+    border: none;
+  }
+  .nav-link {
+    background-color: rgb(240, 240, 240);
+    color: #999;
+  }
+  .nav-tabs > li.active > a{
+    background-color: #999 !important;
+    color: white !important;
+    margin: 0;
+  } 
+}
+.ec-mainSearch{
+  display: flex;
+  align-items: center;
+  & &__sort{
+    margin-right: 2em;
+  }
+  & &__keyword{
+    align-items: inherit;
+    display: flex;
+  }
+  & &__keywordBtn{
+    align-items: inherit;
+    width: 10em;
+    height: 36px;
+    margin-bottom: 16px;
+  }
+}
+
+.ec-topSpCollapse{
+  position: relative;
+  & &__button{
+    position: absolute;
+    width: 100%;
+    height: 34px;
+    background-color: #999;
+    color: #ffffff;
+  }
+  & &__arrorw{
+    pointer-events:none;
+    position: absolute;
+    width: 0;
+    top: 0.75em;
+    right: 1em;
+    height: 0;
+    border-style: solid;
+    border-width: 1em 1em 0 1em;
+    border-color: #ffffff transparent transparent transparent;
+  }
+}
+
+.ec-topMainSearchSp{
+  & &__SerachMain{
+    padding-top: 36px;
+  }
+}
+
+.ec-topModual-body-item {
+  display: flex;
+}

@@ -1,0 +1,83 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ 'front.guide.title'|trans }}</h1>
+        </div>
+        <div>
+            <p>▶<a href="{{ path(app.request.attributes.get('_route'), {'_fragment': 'singupLogin'}) }}">{{'guide.singup_login'|trans}}</a></p>
+            <p>▶<a href="{{ path(app.request.attributes.get('_route'), {'_fragment': 'orderPayment'}) }}">{{'guide.order_payment'|trans}}</a></p>
+            <p>▶<a href="{{ path(app.request.attributes.get('_route'), {'_fragment': 'delivery'}) }}">{{'guide.delivery'|trans}}</a></p>
+            <p>▶<a href="{{ path(app.request.attributes.get('_route'), {'_fragment': 'othres'}) }}">{{'guide.othres'|trans}}</a></p>
+        </div>
+        <div id="singupLogin">
+            <div class="ec-rectHeading">
+                <h3>{{'guide.singup_login'|trans}}</h3>
+            </div>
+            <h4 class="ec-font-bold">{{'guide.singup'|trans}}</h4>
+            <p>{{'guide.singup_message'|trans({ '%url_entry%': url('entry'),'%url_agreement%': url('help_agreement'), '%url_privacy%': url('help_privacy')})|raw|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.login'|trans}}</h4>
+            <p>{{'guide.login_message'|trans({ '%url_mypage_login%': url('mypage_login')})|raw|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.mypage'|trans}}</h4>
+            <p>{{'guide.mypage_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.forgot_password'|trans}}</h4>
+            <p>{{'guide.forgot_password_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.forgot_mail'|trans}}</h4>
+            <p>{{'guide.forgot_mail_message'|trans({ '%url_contact%': url('contact')})|raw|nl2br }}</p>
+        </div>
+        <div id="orderPayment">
+            <div class="ec-rectHeading">
+                <h3>{{'guide.order_payment'|trans}}</h3>
+            </div>
+            <h4 class="ec-font-bold">{{'guide.order'|trans}}</h4>
+            <p>{{'guide.order_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.order_status'|trans}}</h4>
+            <p>{{'guide.order_status_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.cancel_return'|trans}}</h4>
+            <p>{{'guide.cancel_return_message'|trans({ '%url_contact%': url('contact')})|raw|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.payment'|trans}}</h4>
+            <p>{{'guide.payment_message'|trans|nl2br }}</p>
+        </div>
+        <div id="delivery">
+            <div class="ec-rectHeading">
+                <h3>{{'guide.delivery'|trans}}</h3>
+            </div>
+            <h4 class="ec-font-bold">{{'guide.destination'|trans}}</h4>
+            <p>{{'guide.destination_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.delivery_method'|trans}}</h4>
+            <p>{{'guide.delivery_method_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.delivery_company'|trans}}</h4>
+            <p>{{'guide.delivery_company_message'|trans|nl2br }}</p>
+            <br>
+            <h4 class="ec-font-bold">{{'guide.delivery_status'|trans}}</h4>
+            <p>{{'guide.delivery_status_message'|trans|nl2br }}</p>
+        </div>
+        <div id="othres">
+            <div class="ec-rectHeading">
+                <h3>{{'guide.othres'|trans}}</h3>
+            </div>
+            <h4 class="ec-font-bold">{{'guide.withdrow'|trans}}</h4>
+            <p>{{'guide.withdrow_message'|trans({ '%url_contact%': url('contact')})|raw|nl2br }}</p>
+        </div>
+    </div>
+{% endblock %}

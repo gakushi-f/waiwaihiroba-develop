@@ -1,0 +1,36 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ 'front.forgot.title'|trans }}／{{ 'front.forgot.reset_completed'|trans }}</h1>
+        </div>
+    </div>
+    <div class="ec-forgetCompleteRole">
+        <div class="ec-off2Grid ec-text-ac">
+            <div class="ec-off2Grid__cell">
+                <div class="ec-reportHeading">
+                    <h2>{{ 'front.forgot.completed_message__title'|trans }}</h2>
+                </div>
+                <p class="ec-reportDescription">{{ 'front.forgot.completed_message__body'|trans|nl2br }}</p>
+            </div>
+        </div>
+        <div class="ec-off4Grid">
+            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel"
+                                                href="{{ url('mypage_login') }}">{{ 'common.mypage_login'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

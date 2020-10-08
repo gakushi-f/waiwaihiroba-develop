@@ -1,0 +1,94 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block main %}
+    <div class="ec-forProducerRole">
+        <div class="ec-pageHeader">
+            <h1 class="ec-text-ac">{{ 'front.for_producer.title'|trans }}</h1>
+        </div>
+        <div class="ec-off1Grid">
+            <div class="ec-off1Grid__cell">
+                <form method="post" action="{{ url('for_producer') }}" novalidate class="h-adr">
+                    <span class="p-country-name" style="display:none;">Japan</span>
+                    {{ form_widget(form._token) }}
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'common.mail_address', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.email.first) ? ' error' }}">
+                                    {{ form_widget(form.email.first, { 'attr': { 'placeholder': 'common.mail_address_sample' }}) }}
+                                    {{ form_errors(form.email.first) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(form.email.second) ? ' error' }}">
+                                    {{ form_widget(form.email.second, { 'attr': { 'placeholder': 'common.repeated_confirm' }}) }}
+                                    {{ form_errors(form.email.second) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                <label class="ec-label">
+                                    {{ 'front.for_producer.caution'|trans }}
+                                </label>
+                                <span class="ec-required">必須</span>
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.policy_check) ? ' error' }}">
+                                    <label>
+                                        {{ form_widget(form.policy_check) }}
+                                        {{ 'front.for_producer.agree_with_policy'|trans({ '%url%': url('help_agreement') })|raw }}
+                                    </label>
+                                    {{ form_errors(form.policy_check) }}
+                                </div>
+                                <div class="ec-checkbox{{ has_errors(form.policy_check) ? ' error' }}">
+                                    <label>
+                                        {{ form_widget(form.alcohol_check) }}
+                                        {{ 'front.for_producer.agree_with_alcohol'|trans}}
+                                    </label>
+                                    {{ form_errors(form.alcohol_check) }}
+                                </div>
+                                <div class="ec-checkbox{{ has_errors(form.nagano_check) ? ' error' }}">
+                                    <label>
+                                        {{ form_widget(form.nagano_check) }}
+                                        {{ 'front.for_producer.agree_with_nagano'|trans}}
+                                    </label>
+                                    {{ form_errors(form.nagano_check) }}
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="ec-forProducerRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                {# <div class="ec-checkbox{{ has_errors(form.policy_check) ? ' error' }}">
+                                    <label>
+                                        {{ form_widget(form.policy_check) }}
+                                        {{ 'front.entry.agree_with_terms'|trans({ '%url%': url('help_agreement') })|raw }}
+                                    </label>
+                                    {{ form_errors(form.policy_check) }}
+                                </div> #}
+                                <button class="ec-blockBtn--action" type="submit" name="mode" value="confirm">{{ 'front.for_producer.agree'|trans }}</button>
+                                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'front.for_producer.disagree'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

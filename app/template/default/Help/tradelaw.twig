@@ -1,0 +1,99 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1> {{ 'front.tradelaw.title'|trans }}</h1>
+        </div>
+        <div class="ec-off1Grid">
+            <div class="ec-off2Grid__cell">
+                <div class="ec-borderedDefs">
+                    <dl>
+                        <dt>
+                            <label class="ec-label">１．事業者名</label>
+                        </dt>
+                        <dd>{{'yay_info.company_name'| trans}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <label class="ec-label">２．代表者名</label>
+                        </dt>
+                        <dd>{{'yay_info.representatives_name'| trans}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            <label class="ec-label">３．所在地</label>
+                        </dt>
+                        <dd>{{'yay_info.address'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">４．電話番号/受付時間</label>
+                        </dt>
+                        <dd>{{'yay_info.tel'| trans|nl2br}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">５．メールアドレス</label>
+                        </dt>
+                        <dd><a href="mailto:">{{'yay_info.mail'| trans}}</a></dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">６．当サイトの利用料</label>
+                        </dt>
+                        <dd>{{'yay_info.usage_expenses'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">７．上記６以外に必要となる費用</label>
+                        </dt>
+                        <dd>{{'yay_info.other_expenses'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">８．支払方法</label>
+                        </dt>
+                        <dd>{{'yay_info.payment_method'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">９．支払時期</label>
+                        </dt>
+                        <dd>{{'yay_info.payment_time'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">１０．サービス提供時期</label>
+                        </dt>
+                        <dd>{{'yay_info.date_of_service'| trans}}</dd>
+                    </dl>
+
+                    <dl>
+                        <dt>
+                            <label class="ec-label">１１．返品・キャンセルに関する特約</label>
+                        </dt>
+                        <dd>{{'yay_info.returns_and_cancellations'| trans|nl2br}}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

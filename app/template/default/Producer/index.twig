@@ -1,0 +1,164 @@
+{% import "Macro/product_detail_contents.twig" as pdsMacro %}
+{% extends 'default_frame.twig' %}
+
+{% block javascript %}
+    <script>
+        const images = JSON.parse('{{images|json_encode|raw}}');
+        let imageArea = document.getElementById("main-img");
+        let index = 0;
+        let timer = null;
+        $(function() {
+            $('.main_visual').slick({
+                dots: true,
+                arrows: false,
+                autoplay: true,
+                speed: 300,
+                slidesToShow: 3,
+                mobileFirst: true,
+            });
+        });
+        function createTime(){
+            timer = setInterval("changeImage()", 5000);
+        }
+        function innderChangeImage(image){
+            let imgTag = "";
+            if (image.type == "image"){
+                imgTag = `<img class="img-fluid" id="main-img" src='${image.path}'>`;
+            }else{
+                imgTag = `<iframe class="img-fluid" id="main-img" src='${image.moviepath}' frameborder="0" allowfullscreen></iframe>`
+            }
+            imageArea.innerHTML = imgTag;
+        }
+        function changeImage(){
+            if (index == images.length){
+                index = 0 ;
+            }
+            var image = images[index];
+            index += 1;
+            innderChangeImage(image);
+        }
+        function changeImageByIndx(idx){
+            if (timer !== null){
+                clearInterval(timer);
+            }
+            index = idx;
+            changeImage();
+        }
+        changeImage();
+        if (images.length > 0){
+            createTime();
+        }
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+	<div class="ec-producerDetailRole">
+		<div class="ec-off2Grid">
+			<div class="ec-off2Grid__cell">
+                <div class="ec-producerDetailDetailName ec-text-ac">
+                    <h2>{{name}}</h2>
+                </div>
+                <div class="ec-producerDetailImage">
+                    <div class="ec-producerDetailImage__main">
+                        <div id="main-img"></div>
+                    </div>
+                    <div class="ec-producerDetailImage__sub">
+                        {% for image in images %}
+                            <img src="{{image.path}}" class="img-fluid" onclick="changeImageByIndx({{image.id}})">
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="ec-producerDetailLocale">
+                    <p class="ec-font-bold ec-font-size-4">{{'producer_detail.locale'|trans}}</p>
+                    <a class="ec-link ec-font-size-4" href="{{area.link}}">{{area.name}}</a>
+                </div>
+                <div class="ec-producerDetailMessage">
+                    <p class="ec-font-bold ec-font-size-4">{{'producer_detail.introduction'|trans}}</p>
+                    <p>{{message}}</p>
+                </div>
+                <div class="ec-producerDetailAction">
+                    <a class="ec-inlineBtn">{{'common.favorite_action'|trans}}</a>
+                </div>
+                <div class="ec-producerDetailKodawari">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.kocawari'|trans }}</h3>
+                    </div>
+                    {% for kodawari in kodawarilist %}
+                        <div>
+                            <img src="{{kodawari.image}}" class="img-fluid">
+                            <h3>{{kodawari.title}}</h3>
+                            <p>{{kodawari.detail}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="ec-producerDetailRegionalcharacteristics">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.regionalcharacteristics'|trans }}</h3>
+                    </div>
+                    <div>
+                        <img src="{{area.image}}" class="img-fluid">
+                    </div>
+                    <div>
+                        <a class="ec-inlineBtn" href="{{area.link}}">{{'common.show_detail'|trans}}</a>
+                    </div>
+                </div>
+                <div class="ec-producerDetailRegionalcharacteristics">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.seasonality_products'|trans }}</h3>
+                    </div>
+                    <div class="ec-sliderRole">
+                        <div class="main_visual">
+                            <div class="item slick-slide"><img src="https://unsplash.it/1051/1500"></div>
+                            <div class="item slick-slide"><img src="https://unsplash.it/1051/1406"></div>
+                            <div class="item slick-slide"><img src="https://unsplash.it/1051/1051"></div>
+                            <div class="item slick-slide"><img src="https://unsplash.it/1406/1051"></div>
+                            <div class="item slick-slide"><img src="https://unsplash.it/1500/1051"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ec-producerDetailSchedule table-responsive">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.schedule'|trans }}</h3>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                {% for item in schedule.header %}
+                                    <th scope="col">{{item}}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in schedule.detail %}
+                                <tr>
+                                    {% set index = 0 %}
+                                    {% for item in row %}
+                                        {% if index == 0 %}
+                                            <th scope="row">{{item}}</th>
+                                        {% else %}
+                                            <td>{{item}}</td>
+                                        {% endif %}
+                                        {% set index = index + 1 %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="ec-producerDetailSearch">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.products_list'|trans }}</h3>
+                    </div>
+                    {{pdsMacro.productDetailSearch(searchForm, pagination)}}
+                </div>
+                <div class="ec-producerDetailReview">
+                    <div class="ec-rectHeading">
+                        <h3 class="ec-text-ac">{{ 'producer_detail.reviews'|trans }}</h3>
+                    </div>
+                    <p>{{'producer_detail.review_count'|trans({'%review_count%': reviewCount})}}</p>
+                    {{pdsMacro.productDetailReviews(reviews)}}
+                </div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+
+{% extends 'Mypage/mypage_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% set mypageno = 'point' %}
+
+{% set body_class = 'mypage' %}
+
+{% block title %}
+	{{ 'front.mypage.nav__point'|trans }}
+{% endblock %}
+
+{% block content %}
+<div class="ec-mypageRole">
+	{% set remessage = false %}
+	<div class="ec-pointRole">
+		<div class="ec-off1Grid">
+			<div class="ec-off1Grid__cell">
+				<div class="ec-holdPoint">
+					<div class="ec-rectHeading">
+						<h2>{{ 'front.mypage.point.hold_point'|trans }}</h2>
+					</div>
+					<div class="ec-pointAll">
+						<p>
+							{{ 'front.mypage.point.hold_point_total'|trans }}：
+							<span class="ec-pointAll__point">{{ '%point%'|trans({ '%point%': app.user.point|number_format}) }}</span>
+							{{'common.point'| trans}}
+						</p>
+					</div>
+				</div>
+				<div class="ec-couponForm">
+					<div class="ec-couponForm__detail">
+						<form method="post" action="{{ url('mypage_point') }}" novalidate class="h-adr">
+							<div class="ec-rectHeading">
+								<h2>{{ 'front.mypage.point.coupon_use'|trans }}</h2>
+							</div>
+							<div class="ec-editRole">
+								<span class="p-country-name" style="display:none;">Japan</span>
+								{{ form_widget(form._token) }}
+								<div class="ec-borderedDefs">
+									<dl>
+										<dt>
+											{{ form_label(form.coupon, 'front.mypage.point.coupon_no', { 'label_attr': { 'class': 'ec-label' }}) }}
+										</dt>
+										<dd>
+											<div class="ec-halfInput{{ has_errors(form.coupon, form.coupon) ? ' error'}}">
+												{{ form_widget(form.coupon, { 'attr': { 'placeholder': 'front.mypage.point.coupon_no' }}) }}
+												<button type="submit" class="ec-inlineBtn--primary">{{ 'front.mypage.point.use_coupon'|trans }}</button>
+											</div>
+											<div class="ec-halfInputerror">
+												{{ form_errors(form.coupon) }}
+											</div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
